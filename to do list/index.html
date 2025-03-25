@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .main {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            background-color: cadetblue;
+        }
+
+        .box {
+            width: 500px;
+            min-height: 400px;
+            border-radius: 30px;
+            background-color: coral;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .inp-box {
+            position: relative;
+        }
+
+        #inp {
+            padding: 10px 270px 10px 20px;
+            border: none;
+            outline: none;
+            border-radius: 20px;
+        }
+
+        #clearBtn {
+            position: absolute;
+            top: 5px;
+            right: 15px;
+            cursor: pointer;
+        }
+
+        .clearList {
+            position: absolute;
+            top: 0px;
+            right: 10px;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+
+        .to-do li {
+            position: relative;
+            width: 460px;
+            height: 30px;
+            background-color: rgb(6, 145, 155);
+            margin: 10px 0;
+            padding: 5px 10px;
+            border-radius: 20px;
+            list-style: none;
+        }
+
+        .to-do li:hover {
+            background-color: rgb(6, 175, 187);
+
+        }
+
+        .done {
+            background-color: rgb(191, 240, 244) !important;
+            text-decoration: line-through;
+        }
+
+        .leaving {
+            animation: leave forwards 500ms linear;
+        }
+
+        @keyframes leave {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="box">
+            <div class="inp-box">
+                <input type="text" id='inp' placeholder="Write To Do">
+                <span id="clearBtn">❌</span>
+            </div>
+            <div class="to-do">
+                <ul id="AllList">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        var inp = document.getElementById("inp");
+        var AllList = document.getElementById("AllList");
+        var clearList = document.getElementsByClassName("clearList");
+
+        inp.addEventListener(
+            'keyup',
+            function (e) {
+                if (e.key == "Enter") {
+                    var data = e.target.value;
+                    if (data != '') {
+                        var listItem = document.createElement("li")
+                        listItem.addEventListener(
+                            "click",
+                            function () {
+                                listItem.classList.toggle("done");
+                            }
+                        )
+                        listItem.innerHTML = ` ${inp.value} <span class="clearList">✖</span>`;
+                        listItem.children[0].addEventListener(
+                            "click",
+                            function (e) {
+                                e.stopPropagation();
+                                listItem.classList.add("leaving");
+                                setTimeout(
+                                    function () {
+                                        listItem.remove();
+                                    }, 500
+                                )
+                            }
+                        )
+                        AllList.append(listItem);
+                        inp.value = '';
+                    }
+                }
+            }
+        )
+
+        clearBtn.addEventListener(
+            "click",
+            function (e) {
+                inp.value = '';
+            }
+        )
+
+    </script>
+</body>
+
+</html>
